@@ -1,13 +1,15 @@
 package lexer
 
 import (
-	"github.com/sdual/monkey/token"
-
 	"testing"
+
+	"github.com/sdual/monkey/lexer"
+	"github.com/sdual/monkey/token"
 )
 
 func TestNextToken(t *testing.T) {
-	input := `+(){},;`
+	input := `=+(){},;`
+
 	tests := []struct {
 		expectedType    token.TokenType
 		expectedLiteral string
@@ -23,17 +25,17 @@ func TestNextToken(t *testing.T) {
 		{token.EOF, ""},
 	}
 
-	l := New(input)
+	l := lexer.New(input)
 
 	for i, tt := range tests {
 		tok := l.NextToken()
 
 		if tok.Type != tt.expectedType {
-			t.Failf("test[%d] - tokentype wrong. expected=%q, got=%q", i, tt.expectedType, tok.Type)
+			t.Fatalf("tests[%d] - tokentype wrong, expected=%q, got=%q", i, tt.expectedType, tok.Type)
 		}
 
 		if tok.Literal != tt.expectedLiteral {
-			t.Fatalf("tsets[%d] - literal wrong. expected=%q, got=%q", i, tt.expectedLiteral, tok.Literal)
+			t.Fatalf("tests[%d] - literal wrong. expected=%q, got=%q", i, tt.expectedLiteral, tok.Literal)
 		}
 	}
 }
